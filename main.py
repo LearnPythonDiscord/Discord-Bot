@@ -17,4 +17,4 @@ if __name__ == "__main__":
         bot.load_extension(extension)
         print(f'{extension} loaded')
 
-bot.run('NzMxMTYzMDU0NTIzNTQ3NzQ5.Xwic9Q.kcyMCVlXoYKBUwHW2XC3uuEj4UI')
+bot.run(os.getenv('BOT_TOKEN'))
