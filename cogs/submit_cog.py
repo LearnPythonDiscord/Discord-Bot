@@ -10,20 +10,21 @@ class submit_cog(commands.Cog):
     @commands.command()
     async def submit(self, ctx, *, args):
         if ctx.guild is None:
-
-            pattern = r'^(?:`{1,3}(?:python|py)?)([\s\S]*[^`{1,3}])(?:`{1,3})$'
-            submission = re.search(pattern, args, re.MULTILINE)
+            pastebin_pattern = r'https:\/\/(?:pastebin|hastebin|gist).com\/.*'
+            block_pattern = r'^(?:`{1,3}(?:python|py)?)([\s\S]*[^`{1,3}])(?:`{1,3})$'
+            submission = re.search(pastebin_pattern, args, re.MULTILINE)
+            if submission is None:
+                submission = re.search(block_pattern,args, re.MULTILINE)
             if submission is None:
                 await ctx.send('You must wrap your code with \`\`\`py and finish it with \`\`\` ')
             else:
-                submission = submission.group(1)
                 chan = self.bot.get_channel(731153486921728011)
                 submit_embed = discord.Embed(
                     title='New submission', colour=0x00FA00)
                 submit_embed.add_field(
                     name='Author', value=ctx.message.author, inline=False)
                 submit_embed.add_field(
-                    name='Code', value=f'```py{submission}```', inline=False)
+                    name='Code', value=f'```{submission}```', inline=False)
                 await chan.send(embed=submit_embed)
                 await ctx.send('Thank you for your submission')
 
